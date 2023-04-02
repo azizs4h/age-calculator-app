@@ -16,6 +16,6 @@ jobs:
       env:
         ACCESS_TOKEN: ${{ secrets.AGE_CALC_SECRET }}
         TARGET_REPO: azizs4h/age-calculator-app
-        TARGET_BRANCH: gh-pages
+        TARGET_BRANCH: gh_pages
         BUILD_SCRIPT: npm install && npm run build
         BUILD_DIR: dist/
