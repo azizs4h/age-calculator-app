@@ -1,0 +1,23 @@
+$color-purple: hsl(259, 100%, 65%);
+$color-light-red: hsl(0, 100%, 67%);
+
+$color-white: hsl(0, 0%, 100%);
+$color-off-white: hsl(0, 0%, 94%);
+$color-light-grey: hsl(0, 0%, 86%);
+$color-smokey-grey: hsl(0, 1%, 44%);
+$color-off-black: hsl(0, 0%, 8%);
+
+$theme-colors: (
+  purple:$color-purple,
+  light-red:$color-light-red,
+
+  white:$color-white,
+  off-white:$color-off-white,
+  light-grey:$color-light-grey,
+  smokey-grey:$color-smokey-grey,
+  off-black:$color-off-black
+);
+
+@function theme-color($key) {
+  @return map-get($theme-colors, $key);
+}
