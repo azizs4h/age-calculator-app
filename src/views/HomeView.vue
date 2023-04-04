@@ -1,31 +1,47 @@
 <template>
   <div class="container">
-    <div class="todo-container">
-      TODO: calculate absolute age <br>
-      TODO: create a-form component <br>
-      TODO: add form validation
-    </div>
+    <div class="todo-container">TODO: calculate absolute age <br /></div>
     <div class="age-app-card">
-      <div class="input-section">
-        <a-input v-model="formData.day" label="Day" placeholder="01" type="number"></a-input>
-        <a-input v-model="formData.month" label="Month" placeholder="01" type="number"></a-input>
-        <a-input v-model="formData.year" label="Year" placeholder="0000" type="number"></a-input>
-      </div>
+      <a-form ref="formRef">
+        <div class="input-section">
+          <a-input
+            v-model="formData.day"
+            label="Day"
+            placeholder="DD"
+            type="number"
+            :rules="rules.day"
+          ></a-input>
+          <a-input
+            v-model="formData.month"
+            label="Month"
+            placeholder="MM"
+            type="number"
+            :rules="rules.month"
+          ></a-input>
+          <a-input
+            v-model="formData.year"
+            label="Year"
+            placeholder="YYYY"
+            type="number"
+            :rules="rules.year"
+          ></a-input>
+        </div>
+      </a-form>
       <div class="calculate-section">
-        <hr class="horizontal-divider">
+        <hr class="horizontal-divider" />
         <a-btn @click="calculateAge"></a-btn>
       </div>
       <div class="calculations-section">
         <div>
-          <span>{{ calculatedAge.year ?? "--" }}</span>
+          <span>{{ calculatedAge.year ?? '--' }}</span>
           years
         </div>
         <div>
-          <span>{{ calculatedAge.month ?? "--" }}</span>
+          <span>{{ calculatedAge.month ?? '--' }}</span>
           months
         </div>
         <div>
-          <span>{{ calculatedAge.day ?? "--" }}</span>
+          <span>{{ calculatedAge.day ?? '--' }}</span>
           days
         </div>
       </div>
@@ -36,38 +52,48 @@
 <script setup>
 import { ref } from 'vue';
 
+const formRef = ref();
 const today = new Date();
 const year = today.getFullYear();
 const month = today.getMonth() + 1; // Months start at 0!
 const day = today.getDate();
 
+const rules = ref({
+  day: [(v) => !!v || 'This Field Required', (v) => (v < 31 && v > 0) || 'Must be valid day'],
+  month: [(v) => !!v || 'This Field Required', (v) => (v < 13 && v > 0) || 'Must be valid month'],
+  year: [(v) => !!v || 'This Field Required', (v) => (v <= year && v > 0) || 'Must be in past']
+});
+
 const formData = ref({
   day: day,
   month: month,
-  year: year,
+  year: year
 });
 
 const calculatedAge = ref({
   day: null,
   month: null,
-  year: null,
+  year: null
 });
 
 const calculateAge = () => {
-
   // TODO: calculate absolute age
   // TODO: create a-form component
-  calculatedAge.value.year = year - formData.value.year;
-  calculatedAge.value.month = Math.abs(month - formData.value.month);
-  calculatedAge.value.day = Math.abs(day - formData.value.day);
+  try {
+    if (formRef.value.validate()) {
+      calculatedAge.value.year = year - formData.value.year;
+      calculatedAge.value.month = Math.abs(month - formData.value.month);
+      calculatedAge.value.day = Math.abs(day - formData.value.day);
+    }
+  } catch (e) {
+    console.log('err', e);
+  }
 };
-
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/theme.scss";
-@import "@/assets/scss/typography.scss";
-
+@import '@/assets/scss/theme.scss';
+@import '@/assets/scss/typography.scss';
 
 .todo-container {
   position: fixed;
@@ -95,7 +121,7 @@ const calculateAge = () => {
   gap: 2rem; // 20px
 
   .a-input-container {
-    width: calc((100% - 4rem) / 3)
+    width: calc((100% - 4rem) / 3);
   }
 }
 
@@ -126,7 +152,6 @@ const calculateAge = () => {
   display: flex;
   flex-direction: column;
   gap: 0.625rem; //6px
-
 
   div {
     color: theme-color(off-black);

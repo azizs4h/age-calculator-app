@@ -8,14 +8,14 @@ $color-smokey-grey: hsl(0, 1%, 44%);
 $color-off-black: hsl(0, 0%, 8%);
 
 $theme-colors: (
-  purple:$color-purple,
-  light-red:$color-light-red,
+  purple: $color-purple,
+  light-red: $color-light-red,
 
-  white:$color-white,
-  off-white:$color-off-white,
-  light-grey:$color-light-grey,
-  smokey-grey:$color-smokey-grey,
-  off-black:$color-off-black
+  white: $color-white,
+  off-white: $color-off-white,
+  light-grey: $color-light-grey,
+  smokey-grey: $color-smokey-grey,
+  off-black: $color-off-black
 );
 
 @function theme-color($key) {

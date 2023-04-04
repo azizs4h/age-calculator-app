@@ -1,54 +1,90 @@
 <template>
   <div class="a-input-container" :class="isValid">
-    <label :for="uid" class="a-input-label">
+    <label :for="getUid" class="a-input-label">
       <slot name="label">
         {{ label }}
       </slot>
     </label>
-    <input v-model="model" class="a-input" :id="uid" :type="type" :disabled="disabled" :placeholder="placeholder">
-    <div v-if="!valid" aria-describedby="form-validation-error" class="a-input-error-wrapper">
-      <small class="a-input-error">
-        Must be valid date
-      </small>
+    <input
+      v-model="model"
+      class="a-input"
+      :id="getUid"
+      :type="type"
+      :disabled="disabled"
+      :placeholder="placeholder"
+    />
+    <div
+      v-if="errors.length > 0"
+      aria-describedby="form-validation-error"
+      class="a-input-error-wrapper"
+    >
+      <small class="a-input-error" v-for="error in errors" :key="error"> {{ error }} </small>
     </div>
   </div>
 </template>
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, getCurrentInstance, inject, ref } from 'vue';
+import { validation } from './validation';
 
-const props = defineProps(["type", "disabled", "modelValue", "label", "placeholder"]);
-const emit = defineEmits(["update:modelValue"]);
-const valid = ref(true);
+const props = defineProps([
+  'type',
+  'disabled',
+  'modelValue',
+  'label',
+  'placeholder',
+  'rules',
+  'required'
+]);
+const emit = defineEmits(['update:modelValue']);
+const form = inject('registerSelf');
+const errors = ref([]);
+
+const self = getCurrentInstance();
+form(self);
+// with inject above, you can use this.form to reference parent VForm
+
+const validate = () => {
+  // use rules to validate input
+  errors.value = [];
+  const isValid = validation(props.rules, model.value);
+  if (isValid !== true) {
+    errors.value.push(isValid);
+  }
+  return isValid;
+};
 
 const model = computed({
   get() {
-    return props.modelValue
+    return props.modelValue;
   },
   set(value) {
-    emit("update:modelValue", value);
+    emit('update:modelValue', value);
   }
 });
 
-const uid = computed(() => {
-  return "a-input" + Date.now().toString(36).substring(2) + Math.random().toString(36).substring(2);
+const getUid = computed(() => {
+  return 'a-input-' + self.uid;
 });
 
-const isValid = computed(() =>
-  [{
-    "a-input-field-error": !valid.value
-  }]
-);
+const isValid = computed(() => [
+  {
+    'a-input-field-error': errors.value.length > 0
+  }
+]);
+
+defineExpose({ validate });
 </script>
 <style scoped lang="scss">
-@import "@/assets/scss/theme.scss";
-@import "@/assets/scss/typography.scss";
+@import '@/assets/scss/theme.scss';
+@import '@/assets/scss/typography.scss';
 
 .a-input-container {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
 
-  &[class~="a-input-field-error"] {
+  &[class~='a-input-field-error'] {
+    animation: horizontal-shaking 0.2s linear 1;
     .a-input-label {
       color: theme-color(light-red);
     }
@@ -84,7 +120,6 @@ const isValid = computed(() =>
     outline-color: theme-color(purple);
     caret-color: theme-color(purple);
   }
-
 }
 
 .a-input-error {
@@ -95,5 +130,20 @@ const isValid = computed(() =>
 
 .a-input-error-wrapper {
   text-transform: initial;
+}
+
+@keyframes horizontal-shaking {
+  0% {
+    transform: translateX(0);
+  }
+  30% {
+    transform: translateX(0.25rem);
+  }
+  60% {
+    transform: translateX(-0.25rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 </style>
