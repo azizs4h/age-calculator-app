@@ -76,6 +76,8 @@ const calculateAge = () => {
       1996 09 04
       -__________
       0026 06 02
+      @azizs4h need to change this find the best solution,
+      for leap years and need to calculate the people who borned in February 29 
     */
 
     if (formRef.value.validate()) {
