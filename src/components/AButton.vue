@@ -17,8 +17,8 @@
 .a-btn {
   background-color: theme-color(purple);
   border-radius: 50%;
-  width: 6rem;
-  height: 6rem;
+  width: 4rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,10 +33,32 @@
       animation: arrow-fill 2s ease-in-out infinite;
     }
   }
+
+  svg {
+    stroke-width: 2px;
+    stroke: white;
+    width: 32px;
+    height: 30px;
+  }
+}
+
+@media screen and (min-width: 374.999px) {
+  .a-btn {
+    width: 6rem;
+    height: 6rem;
+    svg {
+      stroke-width: 2px;
+      stroke: white;
+      width: 46px;
+      height: 44px;
+    }
+  }
 }
 
 .icon {
   stroke-dasharray: 1000;
+  stroke-width: 4px;
+  stroke: white;
 }
 
 @keyframes arrow-fill {

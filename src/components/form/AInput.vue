@@ -108,8 +108,8 @@ defineExpose({ validate });
 
 .a-input {
   font-family: 'Poppins-Bold';
-  font-size: 2rem; //32px
-  padding: 0.75rem 1.5rem; // 12px 20px
+  font-size: 1.25rem; //32px
+  padding: 0.75rem 0.75rem; // 12px 20px
   margin-top: 0.625rem; // 10px
   color: theme-color(off-black);
   background-color: transparent;
@@ -130,6 +130,13 @@ defineExpose({ validate });
 
 .a-input-error-wrapper {
   text-transform: initial;
+}
+
+@media screen and (min-width: 699.999px) {
+  .a-input {
+    font-size: 2rem; //32px
+    padding: 0.75rem 1.5rem; // 12px 20px
+  }
 }
 
 @keyframes horizontal-shaking {
