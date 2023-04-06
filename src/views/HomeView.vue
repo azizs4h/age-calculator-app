@@ -52,7 +52,7 @@ const month = today.getMonth() + 1; // Months start at 0!
 const day = today.getDate();
 
 const rules = ref({
-  day: [(v) => !!v || 'This Field Required', (v) => (v < 31 && v > 0) || 'Must be valid day'],
+  day: [(v) => !!v || 'This Field Required', (v) => validateMonthDay(v) || 'Must be valid day'],
   month: [(v) => !!v || 'This Field Required', (v) => (v < 13 && v > 0) || 'Must be valid month'],
   year: [(v) => !!v || 'This Field Required', (v) => (v <= year && v > 0) || 'Must be in past']
 });
@@ -69,6 +69,24 @@ const calculatedAge = reactive({
   days: null
 });
 
+const validateMonthDay = (v) => {
+  if (formData.value.month == 2) {
+    if (v < 30 && v > 0) {
+      return true;
+      // february
+    }
+  } else if (formData.value.month % 2) {
+    if (v < 32 && v > 0) {
+      return true;
+    }
+  } else {
+    if (v < 31 && v > 0) {
+      return true;
+    }
+  }
+  return false;
+};
+
 const calculateAge = () => {
   try {
     /* calculations calculate age with this formula
@@ -77,7 +95,7 @@ const calculateAge = () => {
       -__________
       0026 06 02
       @azizs4h need to change this find the best solution,
-      for leap years and need to calculate the people who borned in February 29 
+      for leap years and need to calculate the people who borned in February 29
     */
 
     if (formRef.value.validate()) {
