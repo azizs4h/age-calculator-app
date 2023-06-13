@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div role="main" class="container">
     <div class="age-app-card">
       <a-form ref="formRef">
         <div class="input-section">
