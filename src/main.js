@@ -1,10 +1,10 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
-import AButton from '@/components/AButton.vue';
-import AnimatedNumber from '@/components/AnimatedNumber.vue';
-import AForm from '@/components/form/AForm.vue';
-import AInput from '@/components/form/AInput.vue';
+import AButton from '@/components/AButton';
+import AnimatedNumber from '@/components/AnimatedNumber';
+import AForm from '@/components/FormElements/AForm';
+import AInput from '@/components/FormElements/AInput';
 
 import './assets/scss/main.scss';
 
