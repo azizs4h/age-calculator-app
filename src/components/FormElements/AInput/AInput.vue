@@ -24,7 +24,7 @@
 </template>
 <script setup>
 import { computed, getCurrentInstance, inject, ref } from 'vue';
-import { validation } from './validation';
+import { validation } from '../validation';
 
 const props = defineProps([
   'type',
